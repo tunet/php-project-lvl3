@@ -10,4 +10,4 @@ deploy:
 	git push heroku
 
 lint:
-	composer run-script phpcs -- --standard=phpcs.xml src
+	composer run-script phpcs -- --standard=phpcs.xml app config
