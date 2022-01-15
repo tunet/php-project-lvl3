@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+  database:
+    image: postgres:14.1-alpine
+    command: postgres -c listen_addresses=*
+    environment:
+      - TZ=UTC
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - pgdata_14_1:/var/lib/postgresql/data
+    networks:
+      - phplvl3
+    ports:
+      - '${DB_EXTERNAL_PORT}:5432'
+    restart: always
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        LINUX_USER_ID: ${LINUX_USER_ID}
+    environment:
+      XDEBUG_CONFIG: client_host=${XDEBUG_REMOTE_HOST} client_port=${XDEBUG_REMOTE_PORT}
+      PHP_IDE_CONFIG: serverName=${IDE_SERVER_NAME}
+    networks:
+      - phplvl3
+    depends_on:
+      - database
+    tty: true
+    volumes:
+      - ./:/srv/app
+    restart: always
+
+  nginx:
+    image: nginx:1.21-alpine
+    volumes:
+      - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+      - ./public/:/srv/app/public
+    depends_on:
+      - php
+    networks:
+      - phplvl3
+    ports:
+      - '${WEBSERVER_EXTERNAL_PORT}:80'
+    restart: always
+
+volumes:
+    pgdata_14_1:
+
+networks:
+  phplvl3:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.243.0/28

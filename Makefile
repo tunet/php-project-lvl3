@@ -11,3 +11,12 @@ deploy:
 
 lint:
 	composer run-script phpcs -- --standard=phpcs.xml app config
+
+docker-up: docker-down
+	docker-compose down
+	docker-compose up -d --build
+
+docker-down:
+	docker-compose down
+
+docker-restart: docker-up
