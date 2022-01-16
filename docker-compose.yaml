@@ -48,6 +48,14 @@ services:
       - '${WEBSERVER_EXTERNAL_PORT}:80'
     restart: always
 
+  nodejs:
+    image: node:16.13-alpine3.15
+    working_dir: /srv/app
+    user: "${LINUX_USER_ID}:${LINUX_USER_ID}"
+    volumes:
+        - ./:/srv/app
+    tty: true
+
 volumes:
     pgdata_14_1:
 

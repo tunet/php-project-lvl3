@@ -10,7 +10,7 @@ deploy:
 	git push heroku
 
 lint:
-	composer run-script phpcs -- --standard=phpcs.xml app config
+	composer run-script phpcs -- --standard=phpcs.xml app config routes
 
 docker-up: docker-down
 	docker-compose down
