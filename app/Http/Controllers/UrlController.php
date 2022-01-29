@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUrlRequest;
+use Carbon\CarbonImmutable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -20,9 +23,18 @@ class UrlController extends Controller
         return view('urls.create');
     }
 
-    public function store(Request $request): View
+    public function store(StoreUrlRequest $request): RedirectResponse
     {
-        //
+        $validated = $request->validated();
+
+        DB::table('urls')->insert([
+            'name'       => $validated['url']['name'],
+            'created_at' => CarbonImmutable::now(),
+        ]);
+
+        flash('Страница успешно добавлена');
+
+        return redirect()->route('index');
     }
 
     public function show($id): View
