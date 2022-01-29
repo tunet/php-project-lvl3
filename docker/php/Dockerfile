@@ -1,4 +1,4 @@
-FROM php:8.1.1-fpm-alpine3.15
+FROM php:8.1.2-fpm-alpine3.15
 
 RUN apk update \
     && apk add --no-cache --virtual .build-deps \
@@ -17,7 +17,7 @@ RUN apk update \
     && rm -rf /tmp/* /var/cache/apk/* \
     && apk del .build-deps
 
-RUN curl -OL https://getcomposer.org/download/2.2.4/composer.phar \
+RUN curl -OL https://getcomposer.org/download/2.2.5/composer.phar \
     && mv ./composer.phar /usr/bin/composer \
     && chmod +x /usr/bin/composer
 
