@@ -26,14 +26,14 @@ class UrlController extends Controller
     {
         $validated = $request->validated();
 
-        DB::table('urls')->insert([
+        $id = DB::table('urls')->insertGetId([
             'name'       => $validated['url']['name'],
             'created_at' => CarbonImmutable::now(),
         ]);
 
         flash('Страница успешно добавлена');
 
-        return redirect()->route('index');
+        return redirect()->route('urls.show', ['url' => $id]);
     }
 
     public function show($id): View
