@@ -49,7 +49,7 @@ services:
     restart: always
 
   nodejs:
-    image: node:16.13-alpine3.15
+    image: node:14.18-alpine3.15
     working_dir: /srv/app
     user: "${LINUX_USER_ID}:${LINUX_USER_ID}"
     volumes:
