@@ -62,5 +62,10 @@ class UrlTest extends TestCase
         $showResponse->assertOk();
         $showResponse->assertSee("Сайт: http://site4.com");
         $showResponse->assertSee("<td>{$id}</td>", false);
+
+        $listResponse = $this->get(route('urls.index'));
+
+        $listResponse->assertOk();
+        $listResponse->assertSee('http://site4.com');
     }
 }
