@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUrlRequest;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -39,21 +38,12 @@ class UrlController extends Controller
 
     public function show($id): View
     {
-        //
-    }
+        $url = DB::table('urls')->where('id', $id)->first();
 
-    public function edit($id): View
-    {
-        //
-    }
+        if (!$url) {
+            abort(404);
+        }
 
-    public function update(Request $request, $id): View
-    {
-        //
-    }
-
-    public function destroy($id): View
-    {
-        //
+        return view('urls.show', ['url' => $url]);
     }
 }
