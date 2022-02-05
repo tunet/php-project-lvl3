@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UrlController::class, 'create'])->name('index');
 Route::resource('urls', UrlController::class);
+
+Route::resource('urls.checks', UrlCheckController::class);
