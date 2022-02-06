@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class UrlCheckTest extends TestCase
@@ -24,5 +25,14 @@ class UrlCheckTest extends TestCase
 
         $showResponse = $this->get($uri);
         $showResponse->assertSee("<td>{$id}</td>", false);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Http::fake([
+            '*' => Http::response('Hello World', 200, ['Headers']),
+        ]);
     }
 }

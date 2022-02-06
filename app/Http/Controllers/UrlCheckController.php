@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Throwable;
 
 class UrlCheckController extends Controller
 {
@@ -20,7 +20,7 @@ class UrlCheckController extends Controller
 
         try {
             $response = Http::get($url->name);
-        } catch (Throwable $exception) {
+        } catch (ConnectionException $exception) {
             flash($exception->getMessage())->error();
 
             return redirect()->route('urls.show', ['url' => $id]);
