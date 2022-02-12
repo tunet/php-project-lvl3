@@ -71,6 +71,7 @@ class UrlTest extends TestCase
 
     public function testStoreExistingUrl(): void
     {
+        /** @var \stdClass $url */
         $url = DB::table('urls')->where('name', 'http://site1.com')->first();
         $this->assertNotEmpty($url);
 
