@@ -13,6 +13,7 @@ class UrlCheckTest extends TestCase
 
     public function testStore(): void
     {
+        /** @var \stdClass $url */
         $url = DB::table('urls')->where('name', 'http://site2.com')->first();
         $this->assertNotEmpty($url);
 
