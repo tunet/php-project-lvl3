@@ -44,7 +44,7 @@ class UrlController extends Controller
 
         $url = DB::table('urls')->where('name', $validated['url']['name'])->first();
 
-        if (null === $url) {
+        if (null !== $url) {
             flash('Страница уже существует')->error();
 
             return redirect()->route('urls.show', ['url' => $url->id]);
