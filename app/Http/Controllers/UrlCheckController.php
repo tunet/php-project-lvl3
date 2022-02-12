@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\CarbonImmutable;
+use DiDom\Document;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -26,10 +27,15 @@ class UrlCheckController extends Controller
             return redirect()->route('urls.show', ['url' => $id]);
         }
 
+        $document = new Document($response->getBody()->getContents());
+
         DB::table('url_checks')->insert([
             'url_id'      => $url->id,
             'status_code' => $response->status(),
             'created_at'  => CarbonImmutable::now(),
+            'h1'          => optional($document->first('h1'))->text(),
+            'title'       => optional($document->first('title'))->text(),
+            'description' => optional($document->first('meta[name=description][content]'))->content,
         ]);
 
         flash('Страница успешно проверена');
