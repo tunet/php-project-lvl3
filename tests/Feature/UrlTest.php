@@ -34,13 +34,12 @@ class UrlTest extends TestCase
     public function testShow(): void
     {
         $url = DB::table('urls')->where('name', 'http://site2.com')->first();
-
         $this->assertNotEmpty($url);
 
         $response = $this->get(route('urls.show', ['url' => $url->id]));
 
         $response->assertOk();
-        $response->assertSee("Сайт: http://site2.com");
+        $response->assertSee('Сайт: http://site2.com');
         $response->assertSee("<td>{$url->id}</td>", false);
     }
 
@@ -60,12 +59,30 @@ class UrlTest extends TestCase
         $showResponse = $this->get($uri);
 
         $showResponse->assertOk();
-        $showResponse->assertSee("Сайт: http://site4.com");
+        $showResponse->assertSee('Сайт: http://site4.com');
         $showResponse->assertSee("<td>{$id}</td>", false);
 
         $listResponse = $this->get(route('urls.index'));
 
         $listResponse->assertOk();
         $listResponse->assertSee('http://site4.com');
+    }
+
+    public function testStoreExistingUrl(): void
+    {
+        $url = DB::table('urls')->where('name', 'http://site1.com')->first();
+        $this->assertNotEmpty($url);
+
+        $storeResponse = $this->post(route('urls.store'), [
+            'url' => [
+                'name' => 'http://site1.com',
+            ],
+        ]);
+
+        $uri = route('urls.show', ['url' => $url->id]);
+        $storeResponse->assertRedirect($uri);
+
+        $showResponse = $this->get($uri);
+        $showResponse->assertSee('Страница уже существует');
     }
 }

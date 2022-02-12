@@ -15,14 +15,13 @@ class StoreUrlRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'url.name' => 'required|unique:urls,name|max:255',
+            'url.name' => 'required|max:255',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'url.name.unique'   => 'Страница уже существует',
             'url.name.required' => 'Некорректный URL',
             'url.name.max'      => 'URL не должен превышать 255 символов',
         ];

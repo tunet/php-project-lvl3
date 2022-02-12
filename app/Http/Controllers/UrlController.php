@@ -42,6 +42,14 @@ class UrlController extends Controller
     {
         $validated = $request->validated();
 
+        $url = DB::table('urls')->where('name', $validated['url']['name'])->first();
+
+        if ($url) {
+            flash('Страница уже существует')->error();
+
+            return redirect()->route('urls.show', ['url' => $url->id]);
+        }
+
         $id = DB::table('urls')->insertGetId([
             'name'       => $validated['url']['name'],
             'created_at' => CarbonImmutable::now(),
