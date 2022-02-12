@@ -32,6 +32,7 @@ services:
       - database
     tty: true
     volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       - ./:/srv/app
     restart: always
 

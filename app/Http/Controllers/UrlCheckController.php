@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\Http;
 
 class UrlCheckController extends Controller
 {
+    /**
+     * @param int $id
+     */
     public function store($id): RedirectResponse
     {
+        /** @var \stdClass|null $url */
         $url = DB::table('urls')->where('id', $id)->first();
 
-        if (!$url) {
+        if (null === $url) {
             abort(404);
         }
 
