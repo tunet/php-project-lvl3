@@ -44,7 +44,7 @@ class UrlController extends Controller
 
         $url = DB::table('urls')->where('name', $validated['url']['name'])->first();
 
-        if ($url) {
+        if (null === $url) {
             flash('Страница уже существует')->error();
 
             return redirect()->route('urls.show', ['url' => $url->id]);
@@ -60,11 +60,14 @@ class UrlController extends Controller
         return redirect()->route('urls.show', ['url' => $id]);
     }
 
+    /**
+     * @param int $id
+     */
     public function show($id): View
     {
         $url = DB::table('urls')->where('id', $id)->first();
 
-        if (!$url) {
+        if (null === $url) {
             abort(404);
         }
 
