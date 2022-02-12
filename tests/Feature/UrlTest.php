@@ -33,6 +33,7 @@ class UrlTest extends TestCase
 
     public function testShow(): void
     {
+        /** @var \stdClass $url */
         $url = DB::table('urls')->where('name', 'http://site2.com')->first();
         $this->assertNotEmpty($url);
 
