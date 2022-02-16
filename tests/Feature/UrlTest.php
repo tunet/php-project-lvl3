@@ -25,10 +25,7 @@ class UrlTest extends TestCase
     public function testShow(): void
     {
         $response = $this->get(route('urls.show', ['url' => $this->url->id]));
-
         $response->assertOk();
-        $response->assertSee('Сайт: http://site1.com');
-        $response->assertSee("<td>{$this->url->id}</td>", false);
     }
 
     public function testStore(): void
@@ -42,18 +39,13 @@ class UrlTest extends TestCase
         $id = DB::getPdo()->lastInsertId();
         $uri = route('urls.show', ['url' => $id]);
 
+        $url = DB::table('urls')->where('id', $id)->first();
+        $this->assertSame('http://site4.com', $url->name);
+
         $storeResponse->assertRedirect($uri);
 
         $showResponse = $this->get($uri);
-
         $showResponse->assertOk();
-        $showResponse->assertSee('Сайт: http://site4.com');
-        $showResponse->assertSee("<td>{$id}</td>", false);
-
-        $listResponse = $this->get(route('urls.index'));
-
-        $listResponse->assertOk();
-        $listResponse->assertSee('http://site4.com');
     }
 
     public function testStoreExistingUrl(): void
@@ -68,7 +60,7 @@ class UrlTest extends TestCase
         $storeResponse->assertRedirect($uri);
 
         $showResponse = $this->get($uri);
-        $showResponse->assertSee('Страница уже существует');
+        $showResponse->assertOk();
     }
 
     protected function setUp(): void
