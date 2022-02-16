@@ -39,6 +39,7 @@ class UrlTest extends TestCase
         $id = DB::getPdo()->lastInsertId();
         $uri = route('urls.show', ['url' => $id]);
 
+        /** @var stdClass $url */
         $url = DB::table('urls')->where('id', $id)->first();
         $this->assertSame('http://site4.com', $url->name);
 
