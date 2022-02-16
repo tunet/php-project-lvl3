@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class UrlTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testIndex(): void
     {
         $response = $this->get(route('urls.index'));
