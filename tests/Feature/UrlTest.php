@@ -75,7 +75,8 @@ class UrlTest extends TestCase
     {
         parent::setUp();
 
-        /** @var stdClass $this->url */
-        $this->url = DB::table('urls')->where('name', 'http://site1.com')->first();
+        /** @var stdClass $url */
+        $url = DB::table('urls')->where('name', 'http://site1.com')->first();
+        $this->url = $url;
     }
 }
