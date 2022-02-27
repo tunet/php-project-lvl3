@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\UrlSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use stdClass;
@@ -32,6 +33,8 @@ class UrlCheckTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->seed(UrlSeeder::class);
 
         Http::fake([
             '*' => Http::response('Hello World', 200, ['Headers']),

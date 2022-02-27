@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\UrlSeeder;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 use Tests\TestCase;
@@ -67,6 +68,8 @@ class UrlTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->seed(UrlSeeder::class);
 
         /** @var stdClass $url */
         $url = DB::table('urls')->where('name', 'http://site1.com')->first();
