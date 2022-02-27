@@ -25,7 +25,7 @@ class UrlCheckTest extends TestCase
         $id = DB::getPdo()->lastInsertId();
         /** @var stdClass $urlCheck */
         $urlCheck = DB::table('url_checks')->where('id', $id)->first();
-        /** @var stdClass $urlCheck */
+        /** @var stdClass $url */
         $url = DB::table('urls')->where('id', $urlCheck->url_id)->first();
         $this->assertSame('http://site2.com', $url->name);
     }
