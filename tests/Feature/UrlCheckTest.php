@@ -14,6 +14,10 @@ class UrlCheckTest extends TestCase
 
     public function testStore(): void
     {
+        Http::fake([
+            '*' => Http::response('Hello World', 200, ['Headers']),
+        ]);
+
         $uri = route('urls.show', ['url' => $this->url->id]);
 
         $storeResponse = $this->post(route('urls.checks.store', ['url' => $this->url->id]));
@@ -22,12 +26,10 @@ class UrlCheckTest extends TestCase
         $showResponse = $this->get($uri);
         $showResponse->assertOk();
 
-        $id = DB::getPdo()->lastInsertId();
-        /** @var stdClass $urlCheck */
-        $urlCheck = DB::table('url_checks')->where('id', $id)->first();
-        /** @var stdClass $url */
-        $url = DB::table('urls')->where('id', $urlCheck->url_id)->first();
-        $this->assertSame('http://site2.com', $url->name);
+        $this->assertDatabaseHas('url_checks', [
+            'id'     => DB::getPdo()->lastInsertId(),
+            'url_id' => $this->url->id,
+        ]);
     }
 
     protected function setUp(): void
@@ -36,12 +38,6 @@ class UrlCheckTest extends TestCase
 
         $this->seed(UrlSeeder::class);
 
-        Http::fake([
-            '*' => Http::response('Hello World', 200, ['Headers']),
-        ]);
-
-        /** @var stdClass $url */
-        $url = DB::table('urls')->where('name', 'http://site2.com')->first();
-        $this->url = $url;
+        $this->url = DB::table('urls')->where('name', 'http://site2.com')->first();
     }
 }

@@ -25,33 +25,6 @@ class UrlTest extends TestCase
 
     public function testShow(): void
     {
-        $response = $this->get(route('urls.show', ['url' => $this->url->id]));
-        $response->assertOk();
-    }
-
-    public function testStore(): void
-    {
-        $storeResponse = $this->post(route('urls.store'), [
-            'url' => [
-                'name' => 'http://site4.com',
-            ],
-        ]);
-
-        $id = DB::getPdo()->lastInsertId();
-        $uri = route('urls.show', ['url' => $id]);
-
-        /** @var stdClass $url */
-        $url = DB::table('urls')->where('id', $id)->first();
-        $this->assertSame('http://site4.com', $url->name);
-
-        $storeResponse->assertRedirect($uri);
-
-        $showResponse = $this->get($uri);
-        $showResponse->assertOk();
-    }
-
-    public function testStoreExistingUrl(): void
-    {
         $storeResponse = $this->post(route('urls.store'), [
             'url' => [
                 'name' => 'http://site1.com',
@@ -65,14 +38,28 @@ class UrlTest extends TestCase
         $showResponse->assertOk();
     }
 
+    public function testStore(): void
+    {
+        $urlData = ['name' => 'http://site4.com'];
+
+        $storeResponse = $this->post(route('urls.store'), ['url' => $urlData]);
+        $urlData['id'] = DB::getPdo()->lastInsertId();
+
+        $uri = route('urls.show', ['url' => $urlData['id']]);
+        $storeResponse->assertRedirect($uri);
+
+        $this->assertDatabaseHas('urls', $urlData);
+
+        $showResponse = $this->get($uri);
+        $showResponse->assertOk();
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->seed(UrlSeeder::class);
 
-        /** @var stdClass $url */
-        $url = DB::table('urls')->where('name', 'http://site1.com')->first();
-        $this->url = $url;
+        $this->url = DB::table('urls')->where('name', 'http://site1.com')->first();
     }
 }
