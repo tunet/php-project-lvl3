@@ -14,8 +14,9 @@ class UrlCheckTest extends TestCase
 
     public function testStore(): void
     {
+        $html = file_get_contents(__DIR__ . '/../fixtures/index.html');
         Http::fake([
-            '*' => Http::response('Hello World', 200, ['Headers']),
+            '*' => Http::response($html, 200, ['Headers']),
         ]);
 
         $uri = route('urls.show', ['url' => $this->url->id]);
