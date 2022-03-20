@@ -60,6 +60,7 @@ class UrlTest extends TestCase
 
         $this->seed(UrlSeeder::class);
 
+        /* @phpstan-ignore-next-line */
         $this->url = DB::table('urls')->where('name', 'http://site1.com')->first();
     }
 }
