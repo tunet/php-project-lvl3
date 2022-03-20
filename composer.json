@@ -11,7 +11,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "imangazaliev/didom": "^1.18",
         "laracasts/flash": "^3.2",
-        "laravel/framework": "^8.75",
+        "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
@@ -19,14 +19,14 @@
     },
     "require-dev": {
         "brianium/paratest": "^6.4",
-        "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
+        "nunomaduro/collision": "^6.1",
         "phpstan/phpstan": "^1.4",
         "phpunit/phpunit": "^9.5.10",
         "slevomat/coding-standard": "^7.0",
+        "spatie/laravel-ignition": "^1.0",
         "squizlabs/php_codesniffer": "^3.6"
     },
     "autoload": {
