@@ -43,7 +43,7 @@ class UrlTest extends TestCase
         $urlData = ['name' => 'http://site4.com'];
 
         $storeResponse = $this->post(route('urls.store'), ['url' => $urlData]);
-        $urlData['id'] = DB::getPdo()->lastInsertId();
+        $urlData['id'] = DB::getPdo()->lastInsertId(); /* @phpstan-ignore-line */
 
         $uri = route('urls.show', ['url' => $urlData['id']]);
         $storeResponse->assertRedirect($uri);
