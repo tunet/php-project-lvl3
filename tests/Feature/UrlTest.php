@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use Database\Seeders\UrlSeeder;
@@ -41,17 +43,11 @@ class UrlTest extends TestCase
     public function testStore(): void
     {
         $urlData = ['name' => 'http://site4.com'];
-
         $storeResponse = $this->post(route('urls.store'), ['url' => $urlData]);
-        $urlData['id'] = DB::getPdo()->lastInsertId(); /* @phpstan-ignore-line */
 
-        $uri = route('urls.show', ['url' => $urlData['id']]);
-        $storeResponse->assertRedirect($uri);
-
+        $storeResponse->assertRedirect();
+        $storeResponse->assertSessionHasNoErrors();
         $this->assertDatabaseHas('urls', $urlData);
-
-        $showResponse = $this->get($uri);
-        $showResponse->assertOk();
     }
 
     protected function setUp(): void
@@ -60,7 +56,6 @@ class UrlTest extends TestCase
 
         $this->seed(UrlSeeder::class);
 
-        /* @phpstan-ignore-next-line */
         $this->url = DB::table('urls')->where('name', 'http://site1.com')->first();
     }
 }

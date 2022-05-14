@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use Database\Seeders\UrlSeeder;
@@ -28,7 +30,7 @@ class UrlCheckTest extends TestCase
         $showResponse->assertOk();
 
         $this->assertDatabaseHas('url_checks', [
-            'id'     => DB::getPdo()->lastInsertId(), /* @phpstan-ignore-line */
+            'id'     => DB::getPdo()->lastInsertId(),
             'url_id' => $this->url->id,
         ]);
     }
@@ -39,7 +41,6 @@ class UrlCheckTest extends TestCase
 
         $this->seed(UrlSeeder::class);
 
-        /* @phpstan-ignore-next-line */
         $this->url = DB::table('urls')->where('name', 'http://site2.com')->first();
     }
 }
