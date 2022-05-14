@@ -51,7 +51,8 @@ class StoreUrlRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $urlData = isset($this->url) ? $this->url : [];
-        $components = parse_url($urlData['name'] ?? '');
+        $name = $urlData['name'] ?? '';
+        $components = parse_url((string) $name);
         $url = isset($components['scheme'], $components['host'])
             ? "{$components['scheme']}://{$components['host']}"
             : null;
