@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Carbon\CarbonImmutable;
 use Database\Seeders\UrlSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -21,17 +22,21 @@ class UrlCheckTest extends TestCase
             '*' => Http::response($html, 200, ['Headers']),
         ]);
 
-        $uri = route('urls.show', ['url' => $this->url->id]);
+        $dateTime = new CarbonImmutable('2022-01-01 12:00:00');
+        CarbonImmutable::setTestNow($dateTime);
 
-        $storeResponse = $this->post(route('urls.checks.store', ['url' => $this->url->id]));
-        $storeResponse->assertRedirect($uri);
+        $data = ['url' => $this->url->id];
+        $storeResponse = $this->post(route('urls.checks.store', $data));
 
-        $showResponse = $this->get($uri);
-        $showResponse->assertOk();
-
+        $storeResponse->assertRedirect();
+        $storeResponse->assertSessionHasNoErrors();
         $this->assertDatabaseHas('url_checks', [
-            'id'     => DB::getPdo()->lastInsertId(),
-            'url_id' => $this->url->id,
+            'url_id'      => $this->url->id,
+            'status_code' => 200,
+            'title'       => 'Test article',
+            'description' => 'Article description',
+            'h1'          => 'Title for the article',
+            'created_at'  => '2022-01-01 12:00:00',
         ]);
     }
 
