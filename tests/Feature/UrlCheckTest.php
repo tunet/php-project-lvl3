@@ -41,6 +41,6 @@ class UrlCheckTest extends TestCase
 
         $this->seed(UrlSeeder::class);
 
-        $this->url = DB::table('urls')->where('name', 'http://site2.com')->first();
+        $this->url = DB::table('urls')->where('name', 'http://site2.com')->get()->firstOrFail();
     }
 }
