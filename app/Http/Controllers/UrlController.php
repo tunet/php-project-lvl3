@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUrlRequest;
@@ -25,7 +27,7 @@ class UrlController extends Controller
                             join urls as u2 on u2.id = uc2.url_id
                             group by u2.id
                         )
-                        WHERE
+                        WHERE,
                     );
             })
             ->get();

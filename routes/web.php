@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\UrlCheckController;
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
