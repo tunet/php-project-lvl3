@@ -30,7 +30,7 @@ class UrlCheckTest extends TestCase
         $storeResponse->assertRedirect();
         $storeResponse->assertSessionHasNoErrors();
         $this->assertDatabaseHas('url_checks', [
-            'url_id'      => $this->url->id,
+            'url_id'      => $model->id,
             'status_code' => 200,
             'title'       => 'Test article',
             'description' => 'Article description',
