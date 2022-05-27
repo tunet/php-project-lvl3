@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Models\Url;
 use Carbon\CarbonImmutable;
-use Database\Seeders\UrlSeeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use stdClass;
 use Tests\TestCase;
 
 class UrlCheckTest extends TestCase
 {
-    private stdClass $url;
+    private Url $url;
 
     public function testStore(): void
     {
@@ -44,8 +42,6 @@ class UrlCheckTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(UrlSeeder::class);
-
-        $this->url = DB::table('urls')->where('name', 'http://site2.com')->get()->firstOrFail();
+        $this->url = Url::factory()->create(['name' => 'http://site2.com']);
     }
 }

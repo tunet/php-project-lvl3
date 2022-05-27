@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Models\Url;
 use Database\Seeders\UrlSeeder;
-use Illuminate\Support\Facades\DB;
-use stdClass;
 use Tests\TestCase;
 
 class UrlTest extends TestCase
 {
-    private stdClass $url;
+    private Url $url;
 
     public function testIndex(): void
     {
@@ -54,8 +53,6 @@ class UrlTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(UrlSeeder::class);
-
-        $this->url = DB::table('urls')->where('name', 'http://site1.com')->get()->firstOrFail();
+        $this->url = Url::factory()->create(['name' => 'http://site1.com']);
     }
 }
