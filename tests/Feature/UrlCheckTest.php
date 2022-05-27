@@ -11,8 +11,6 @@ use Tests\TestCase;
 
 class UrlCheckTest extends TestCase
 {
-    private Url $url;
-
     public function testStore(): void
     {
         $html = file_get_contents(__DIR__ . '/../fixtures/index.html');
@@ -20,10 +18,13 @@ class UrlCheckTest extends TestCase
             '*' => Http::response($html, 200, ['Headers']),
         ]);
 
+        /** @var \App\Models\Url $model */
+        $model = Url::factory()->create(['name' => 'http://site2.com']);
+
         $dateTime = new CarbonImmutable('2022-01-01 12:00:00');
         CarbonImmutable::setTestNow($dateTime);
 
-        $data = ['url' => $this->url->id];
+        $data = ['url' => $model->id];
         $storeResponse = $this->post(route('urls.checks.store', $data));
 
         $storeResponse->assertRedirect();
@@ -36,12 +37,5 @@ class UrlCheckTest extends TestCase
             'h1'          => 'Title for the article',
             'created_at'  => '2022-01-01 12:00:00',
         ]);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->url = Url::factory()->create(['name' => 'http://site2.com']);
     }
 }
