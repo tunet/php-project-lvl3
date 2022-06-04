@@ -10,8 +10,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
-use function compact;
-
 class UrlController extends Controller
 {
     public function index(): View
@@ -62,11 +60,9 @@ class UrlController extends Controller
      */
     public function show($id): View
     {
-        $url = DB::table('urls')->where('id', $id)->first();
+        $url = DB::table('urls')->find($id);
 
-        if (null === $url) {
-            abort(404);
-        }
+        abort_unless($url, 404);
 
         $checks = DB::table('url_checks')->where('url_id', $id)->get();
 

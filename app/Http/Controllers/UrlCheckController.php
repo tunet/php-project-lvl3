@@ -18,12 +18,9 @@ class UrlCheckController extends Controller
      */
     public function store($id): RedirectResponse
     {
-        /** @var \stdClass|null $url */
-        $url = DB::table('urls')->where('id', $id)->first();
+        $url = DB::table('urls')->find($id);
 
-        if (null === $url) {
-            abort(404);
-        }
+        abort_unless($url, 404);
 
         try {
             $response = Http::get($url->name);
