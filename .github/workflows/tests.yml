@@ -1,11 +1,7 @@
 name: tests
 
 on:
-  push:
-    branches:
-      - '**'
-    tags:
-      - '**'
+  push
 
 jobs:
   tests:
